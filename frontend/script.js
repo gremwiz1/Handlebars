@@ -71,5 +71,5 @@ class Api {
   }
   // другие методы работы с API
 }
-const api = new Api("http://178.154.198.59");
+const api = new Api("http://178.154.198.59/api");
 api.getInitialTodolist();

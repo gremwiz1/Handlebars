@@ -55,14 +55,14 @@ app.engine(
 );
 app.set("views", "./views");
 app.set("view engine", "handlebars");
-app.get("/todolist", (req, res, next) => {
+app.get("/api/todolist", (req, res, next) => {
   Todolist.find({}).lean()
     .then((todolist) => {
       res.status(200).render("home", { todolist });
     })
     .catch(next);
 });
-app.post("/todolist", celebrate({
+app.post("/api/todolist", celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2),
   }),
@@ -78,7 +78,7 @@ app.post("/todolist", celebrate({
       }
     });
 });
-app.delete("/todolist/:todoId", (req, res, next) => {
+app.delete("/api/todolist/:todoId", (req, res, next) => {
   Todolist.findById(req.params.todoId)
     .orFail(new Error("NotValidIdTodo"))
     .then((card) => {
