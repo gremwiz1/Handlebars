@@ -19,7 +19,7 @@ const limiter = rateLimit({
 const allowedCors = [
   "http://localhost:3000",
   "https://localhost:3000",
-  "file:///C:/Users/1/Desktop/yandex%20praktikum/test-handlebars/Handlebars/index.html",
+  "http://178.154.198.59",
 ];
 const app = express();
 app.use(helmet());
