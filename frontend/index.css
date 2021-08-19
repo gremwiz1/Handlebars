@@ -3,3 +3,6 @@
 @import url(./blocks/todolist/__element/todolist__element.css);
 @import url(./blocks/todolist/__element/_field/todolist__element_field.css);
 @import url(./blocks/todolist/__button/todolist__button.css);
+@import url(./blocks/form/form.css);
+@import url(./blocks/form/__input/form__input.css);
+@import url(./blocks/form/__button/form__button.css);
