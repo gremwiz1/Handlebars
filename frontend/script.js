@@ -55,7 +55,9 @@ class Api {
       const buttonDeleteTodo = buttonsDeleteTodos[buttonsDeleteTodos.length - 1];
       buttonDeleteTodo.addEventListener("click", deleteTodo);
       const statuses = document.querySelectorAll(".status");
+      console.log(statuses);
       const status = statuses[statuses.length - 1];
+      console.log(status);
       status.addEventListener("click", changeStatus);
     })
   }
