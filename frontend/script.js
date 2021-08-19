@@ -45,10 +45,10 @@ class Api {
       // если ошибка, отклоняем промис
       return Promise.reject(`Ошибка: ${res.status}`);
     }).then((html) => {
-      const newTodo = document.createElement(html);
       const ulSection = sectionTodolist.querySelector('.ulCollection');
-      ulSection.append(newTodo);
-      const buttonDeleteTodo = newTodo.querySelector(".todolist__button");
+      ulSection.insertAdjacentHTML("beforeEnd", html);
+      const buttonsDeleteTodos = ulSection.querySelectorAll(".todolist__button");
+      const buttonDeleteTodo = buttonsDeleteTodos[buttonsDeleteTodos.length - 1];
       buttonDeleteTodo.addEventListener("click", deleteTodo);
     })
   }
