@@ -95,26 +95,6 @@ app.delete("/api/todolist/:todoId", (req, res, next) => {
       }
     });
 });
-app.patch("/api/todolist/:todoId", (req, res, next) => {
-  const { flag } = req.body;
-  const newFlag;
-  if (flag === "Не выполнено") newFlag = "выполнено"
-  else newFlag = "Не выполнено";
-  Todolist.findByIdAndUpdate(req.params.todoId, { flag: newFlag }, { new: true, runValidators: true, upsert: true })
-    .orFail(new Error("NotValidIdTodo"))
-    .then((todo) => {
-      res.status(200).send({ id: todo.id, flag: todo.flag });
-    })
-    .catch((err) => {
-      if (err.message === "NotValidIdTodo") {
-        next(new NotFoundError("Нет пользователя с таким id"));
-      } else if (err.name === "ValidationError") {
-        next(new BadRequestError(`Переданы не корректные данные: ${err}`));
-      } else {
-        next(err);
-      }
-    });
-});
 app.use("*", errorsRouter);
 app.use(errorLogger); // подключаем логгер ошибок
 app.use(errors()); // обработчик ошибок celebrate
