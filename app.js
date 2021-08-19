@@ -69,7 +69,7 @@ app.post("/api/todolist", celebrate({
 }), (req, res, next) => {
   const { name } = req.body;
   Todolist.create({ name })
-    .then((item) => res.status(200).render("item", { name: item.name, flag: item.flag, date: item.date, id: item._id, layout: false }))
+    .then((item) => res.status(200).render("item", { name: item.name, flag: item.flag, date: item.date, _id: item._id, layout: false }))
     .catch((err) => {
       if (err.name === "ValidationError") {
         next(new BadRequestError(`Переданы не корректные данные: ${err}`));
