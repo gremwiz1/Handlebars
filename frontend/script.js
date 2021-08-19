@@ -76,3 +76,11 @@ class Api {
 }
 const api = new Api("http://178.154.198.59/api");
 api.getInitialTodolist();
+const submitButton = document.querySelector(".form__button");
+const textInput = document.querySelector(".form__input");
+function addTodo(evt) {
+  evt.preventDefault();
+  api.addItem({ name: textInput.textContent });
+  api.getInitialTodolist();
+}
+submitButton.addEventListener("click", addTodo);
