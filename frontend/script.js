@@ -91,6 +91,6 @@ function addTodo(evt) {
 }
 submitButton.addEventListener("click", addTodo);
 function deleteTodo(evt) {
-  const parentElement = evt.target.closest();
+  const parentElement = evt.target.closest("li");
   api.deleteTodolist(parentElement.id);
 }
