@@ -1,0 +1,9 @@
+.todolist__element_field {
+  color: red;
+  border: 1px solid brown;
+  cursor: pointer;
+  transition: 1s;
+}
+.todolist__element_field:hover {
+  opacity: 0.7;
+}

@@ -1,0 +1,9 @@
+.todolist__button {
+  border: 1px solid orange;
+  margin: auto;
+  height: 20px;
+  width: 20px;
+  color: teal;
+  font-size: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}

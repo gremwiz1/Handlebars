@@ -1,0 +1,27 @@
+{
+  "name": "handlebars",
+  "author": "Gremwiz",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "celebrate": "^15.0.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.3",
+    "express-rate-limit": "^5.3.0",
+    "express-winston": "^4.1.0",
+    "helmet": "^4.6.0",
+    "mongoose": "^5.13.7",
+    "winston": "^3.3.3"
+  },
+  "scripts": {
+    "lint": "npx eslint .",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4",
+    "nodemon": "^2.0.12"
+  }
+}
