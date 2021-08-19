@@ -82,7 +82,7 @@ const api = new Api("http://178.154.198.59/api");
 api.getInitialTodolist();
 function addTodo(evt) {
   evt.preventDefault();
-  api.addItem({ name: textInput.textContent });
+  api.addItem({ name: textInput.value });
   api.getInitialTodolist();
 }
 submitButton.addEventListener("click", addTodo);
