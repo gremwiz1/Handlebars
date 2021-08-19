@@ -1,5 +1,5 @@
-@import url(../vendor/normalize.css);
-@import url(../blocks/page/page.css);
-@import url(../blocks/todolist/__element/todolist__element.css);
-@import url(../blocks/todolist/__element/_field/todolist__element_field.css);
-@import url(../blocks/todolist/__button/todolist__button.css);
+@import url(./vendor/normalize.css);
+@import url(./blocks/page/page.css);
+@import url(./blocks/todolist/__element/todolist__element.css);
+@import url(./blocks/todolist/__element/_field/todolist__element_field.css);
+@import url(./blocks/todolist/__button/todolist__button.css);
