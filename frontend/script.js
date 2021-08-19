@@ -3,6 +3,7 @@ class Api {
     this.baseUrl = baseUrl;
   }
 
+
   getInitialTodolist() {
     return fetch(`${this.baseUrl}/todolist`, {
       headers: {
@@ -11,11 +12,13 @@ class Api {
     })
       .then((res) => {
         if (res.ok) {
-          return res.json();
+          return res.text();
         }
-        // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
+        return Promise.reject(`Ошибка: ${res.status}`)
+      })
+      .then((html) => {
+        document.body.innerHTML = html;
+      })
   }
 
   addItem(item) {
