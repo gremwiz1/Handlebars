@@ -54,7 +54,7 @@ class Api {
       const buttonsDeleteTodos = ulSection.querySelectorAll(".todolist__button");
       const buttonDeleteTodo = buttonsDeleteTodos[buttonsDeleteTodos.length - 1];
       buttonDeleteTodo.addEventListener("click", deleteTodo);
-      const statuses = ulSection.querySelectorAll(".status");
+      const statuses = document.querySelectorAll(".status");
       const status = statuses[statuses.length - 1];
       status.addEventListener("click", changeStatus);
     })
