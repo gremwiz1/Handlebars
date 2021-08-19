@@ -26,6 +26,10 @@ class Api {
         Array.from(buttonsDeleteTodo).map((item) => {
           item.addEventListener("click", deleteTodo);
         });
+        const statusesTodo = document.querySelectorAll(".status");
+        Array.from(statusesTodo).map((item) => {
+          item.addEventListener("click", changeStatus);
+        })
       });
   }
 
@@ -50,17 +54,20 @@ class Api {
       const buttonsDeleteTodos = ulSection.querySelectorAll(".todolist__button");
       const buttonDeleteTodo = buttonsDeleteTodos[buttonsDeleteTodos.length - 1];
       buttonDeleteTodo.addEventListener("click", deleteTodo);
+      const statuses = ulSection.querySelectorAll(".status");
+      const status = statuses[statuses.length - 1];
+      status.addEventListener("click", changeStatus);
     })
   }
 
-  editTodolist(item) {
-    return fetch(`${this.baseUrl}/todolist/${item._id}`, {
+  editTodolist(item, id) {
+    return fetch(`${this.baseUrl}/todolist/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        flag: item.flag,
+        flag: item,
       }),
     })
       .then((res) => {
@@ -69,7 +76,11 @@ class Api {
         }
         // если ошибка, отклоняем промис
         return Promise.reject(`Ошибка: ${res.status}`);
-      });
+      }).then((result) => {
+        const ulSection = sectionTodolist.querySelector('.ulCollection');
+        const element = ulSection.getElementById(`${result.id}`);
+        element.querySelector(".status").textContent = result.flag;
+      })
   }
 
   deleteTodolist(cardId, card) {
@@ -100,4 +111,8 @@ submitButton.addEventListener("click", addTodo);
 function deleteTodo(evt) {
   const parentElement = evt.target.closest("li");
   api.deleteTodolist(parentElement.id, parentElement);
+}
+function changeStatus(evt) {
+  const parentElement = evt.target.closest("li");
+  api.editTodolist(evt.target.textContent, parentElement.id);
 }
