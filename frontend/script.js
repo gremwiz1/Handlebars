@@ -45,9 +45,10 @@ class Api {
       // если ошибка, отклоняем промис
       return Promise.reject(`Ошибка: ${res.status}`);
     }).then((html) => {
-      const newTodo = document.createElement("div");
+      const newTodo = document.createElement("");
       newTodo.innerHTML = html;
-      sectionTodolist.prepend(newTodo);
+      const ulSection = sectionTodolist.querySelector('.ulCollection');
+      ulSection.append(newTodo);
       const buttonDeleteTodo = newTodo.querySelector(".todolist__button");
       buttonDeleteTodo.addEventListener("click", deleteTodo);
     })
