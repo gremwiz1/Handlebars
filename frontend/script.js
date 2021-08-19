@@ -20,7 +20,7 @@ class Api {
         return Promise.reject(`Ошибка: ${res.status}`)
       })
       .then((html) => {
-        sectionTodolist.innerHTML = html;
+        sectionTodolist.body.innerHTML = html;
       })
   }
 
