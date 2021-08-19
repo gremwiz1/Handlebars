@@ -77,8 +77,7 @@ class Api {
         // если ошибка, отклоняем промис
         return Promise.reject(`Ошибка: ${res.status}`);
       }).then((result) => {
-        const ulSection = sectionTodolist.querySelector('.ulCollection');
-        const element = ulSection.getElementById(`${result.id}`);
+        const element = document.getElementById(`${result.id}`);
         element.querySelector(".status").textContent = result.flag;
       })
   }
