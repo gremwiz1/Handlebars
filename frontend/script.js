@@ -40,11 +40,15 @@ class Api {
       },
     }).then((res) => {
       if (res.ok) {
-        return this.getInitialTodolist();
+        return res.text();
       }
       // если ошибка, отклоняем промис
       return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    }).then((html) => {
+      sectionTodolist.prepend(html);
+      const buttonDeleteTodo = html.querySelector(".todolist__button");
+      buttonDeleteTodo.addEventListener("click", deleteTodo);
+    })
   }
 
   editTodolist(item) {
@@ -66,15 +70,16 @@ class Api {
       });
   }
 
-  deleteTodolist(card) {
-    return fetch(`${this.baseUrl}/todolist/${card}`, {
+  deleteTodolist(cardId, card) {
+    return fetch(`${this.baseUrl}/todolist/${cardId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
     }).then((res) => {
       if (res.ok) {
-        return this.getInitialTodolist();
+        card.remove();
+        return res.json();
       }
       // если ошибка, отклоняем промис
       return Promise.reject(`Ошибка: ${res.status}`);
@@ -92,5 +97,5 @@ function addTodo(evt) {
 submitButton.addEventListener("click", addTodo);
 function deleteTodo(evt) {
   const parentElement = evt.target.closest("li");
-  api.deleteTodolist(parentElement.id);
+  api.deleteTodolist(parentElement.id, parentElement);
 }
