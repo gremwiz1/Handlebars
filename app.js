@@ -68,7 +68,7 @@ app.post("/api/todolist", celebrate({
   }),
 }), (req, res, next) => {
   const { name } = req.body;
-  Todolist.create({ name })
+  Todolist.create({ name }).lean()
     .then((item) => res.status(200).render("home", { item }))
     .catch((err) => {
       if (err.name === "ValidationError") {
