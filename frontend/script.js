@@ -1,8 +1,7 @@
 const submitButton = document.querySelector(".form__button");
 const textInput = document.querySelector(".form__input");
 const sectionTodolist = document.querySelector(".mainContent");
-console.log(sectionTodolist);
-console.log(submitButton);
+
 class Api {
   constructor(baseUrl) {
     this.baseUrl = baseUrl;
