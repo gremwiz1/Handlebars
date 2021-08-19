@@ -1,7 +1,7 @@
 const submitButton = document.querySelector(".form__button");
 const textInput = document.querySelector(".form__input");
 const sectionTodolist = document.querySelector(".mainContent");
-
+const form = document.querySelector(".form");
 class Api {
   constructor(baseUrl) {
     this.baseUrl = baseUrl;
@@ -22,7 +22,11 @@ class Api {
       })
       .then((html) => {
         sectionTodolist.innerHTML = html;
-      })
+        const buttonsDeleteTodo = document.querySelectorAll(".todolist__button");
+        Array.from(buttonsDeleteTodo).map((item) => {
+          item.addEventListener("click", deleteTodo);
+        });
+      });
   }
 
   addItem(item) {
@@ -36,7 +40,7 @@ class Api {
       },
     }).then((res) => {
       if (res.ok) {
-        return res.json();
+        return this.getInitialTodolist();
       }
       // если ошибка, отклоняем промис
       return Promise.reject(`Ошибка: ${res.status}`);
@@ -70,7 +74,7 @@ class Api {
       },
     }).then((res) => {
       if (res.ok) {
-        return res.json();
+        return this.getInitialTodolist();
       }
       // если ошибка, отклоняем промис
       return Promise.reject(`Ошибка: ${res.status}`);
@@ -83,6 +87,10 @@ api.getInitialTodolist();
 function addTodo(evt) {
   evt.preventDefault();
   api.addItem({ name: textInput.value });
-  api.getInitialTodolist();
+  form.reset();
 }
 submitButton.addEventListener("click", addTodo);
+function deleteTodo(evt) {
+  const parentElement = evt.target.closest();
+  api.deleteTodolist(parentElement.id);
+}
