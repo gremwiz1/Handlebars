@@ -3,13 +3,10 @@ const mongoose = require("mongoose");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const handlebars = require("express-handlebars");
-const { celebrate, errors, Joi } = require("celebrate");
+const { errors } = require("celebrate");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 const errorsMiddlewares = require("./middlewares/errors");
-const errorsRouter = require("./routes/errors");
-const Todolist = require("./models/todolist");
-const BadRequestError = require("./errors/bad-request-err");
-const NotFoundError = require("./errors/not-found-err");
+const allRouters = require("./routes/index");
 
 const { PORT = 3000 } = process.env;
 const limiter = rateLimit({
@@ -55,82 +52,7 @@ app.engine(
 );
 app.set("views", "./views");
 app.set("view engine", "handlebars");
-app.get("/api/todolist", (req, res, next) => {
-  Todolist.find({}).lean()
-    .then((todolist) => {
-      res.status(200).render("home", { todolist });
-    })
-    .catch(next);
-});
-app.get("/api/todolist/success", (req, res, next) => {
-  Todolist.find({}).sort({ "flag": -1 }).lean()
-    .then((todolist) => {
-      res.status(200).render("home", { todolist });
-    })
-    .catch(next);
-});
-app.get("/api/todolist/unsuccess", (req, res, next) => {
-  Todolist.find({}).sort({ "flag": 1 }).lean()
-    .then((todolist) => {
-      res.status(200).render("home", { todolist });
-    })
-    .catch(next);
-});
-app.post("/api/todolist", celebrate({
-  body: Joi.object().keys({
-    name: Joi.string().min(2),
-  }),
-}), (req, res, next) => {
-  const { name } = req.body;
-  Todolist.create({ name })
-    .then((item) => res.status(200).render("item", { name: item.name, flag: item.flag, date: item.date, _id: item._id, layout: false }))
-    .catch((err) => {
-      if (err.name === "ValidationError") {
-        next(new BadRequestError(`Переданы не корректные данные: ${err}`));
-      } else {
-        next(err);
-      }
-    });
-});
-app.delete("/api/todolist/:todoId", (req, res, next) => {
-  Todolist.findById(req.params.todoId)
-    .orFail(new Error("NotValidIdTodo"))
-    .then((card) => {
-      card.remove();
-      res.status(200).send({ message: "Карточка успешно удалена" });
-    })
-    .catch((err) => {
-      if (err.message === "NotValidIdTodo") {
-        next(new NotFoundError("Карточки с таким id не существует"));
-      } else if (err.name === "CastError") {
-        next(new BadRequestError(`Переданы не корректные данные: ${err}`));
-      } else {
-        next(err);
-      }
-    });
-});
-app.patch("/api/todolist/:todoId", (req, res, next) => {
-  const { flag } = req.body;
-  let newFlag = "";
-  if (flag === "Не выполнено") newFlag = "выполнено"
-  else newFlag = "Не выполнено";
-  Todolist.findByIdAndUpdate(req.params.todoId, { flag: newFlag },
-    { new: true, runValidators: true, upsert: true })
-    .orFail(new Error("NotValidIdTodo"))
-    .then((todo) => {
-      res.status(200).send({ id: todo.id, flag: todo.flag });
-    })
-    .catch((err) => {
-      if (err.message === "NotValidIdTodo") {
-        next(new NotFoundError("Нет пользователя с таким id"));
-      } else if (err.name === "ValidationError") {
-        next(new BadRequestError(`Переданы не корректные данные: ${err}`));
-      } else {
-        next(err);
-      }
-    });
-});
-app.use("*", errorsRouter);
+app.use("/", allRouters);
 app.use(errorLogger); // подключаем логгер ошибок
 app.use(errors()); // обработчик ошибок celebrate
 app.use(errorsMiddlewares);
