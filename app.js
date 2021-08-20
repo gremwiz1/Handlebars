@@ -62,6 +62,20 @@ app.get("/api/todolist", (req, res, next) => {
     })
     .catch(next);
 });
+app.get("/api/todolist/success", (req, res, next) => {
+  Todolist.find({}).sort({ "flag": -1 }).lean()
+    .then((todolist) => {
+      res.status(200).render("home", { todolist });
+    })
+    .catch(next);
+});
+app.get("/api/todolist/unsuccess", (req, res, next) => {
+  Todolist.find({}).sort({ "flag": 1 }).lean()
+    .then((todolist) => {
+      res.status(200).render("home", { todolist });
+    })
+    .catch(next);
+});
 app.post("/api/todolist", celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2),

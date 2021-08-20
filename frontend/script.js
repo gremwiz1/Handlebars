@@ -2,6 +2,9 @@ const submitButton = document.querySelector(".form__button");
 const textInput = document.querySelector(".form__input");
 const sectionTodolist = document.querySelector(".mainContent");
 const form = document.querySelector(".form");
+const buttonSortSuccess = document.getElementById("success");
+const buttonSortUnsuccess = document.getElementById("unsuccess");
+const buttonSortReset = document.getElementById("reset");
 class Api {
   constructor(baseUrl) {
     this.baseUrl = baseUrl;
@@ -97,6 +100,56 @@ class Api {
       return Promise.reject(`Ошибка: ${res.status}`);
     });
   }
+
+  getSortSuccessTodolist() {
+    return fetch(`${this.baseUrl}/todolist/success`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.text();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`)
+      })
+      .then((html) => {
+        sectionTodolist.innerHTML = html;
+        const buttonsDeleteTodo = document.querySelectorAll(".todolist__button");
+        Array.from(buttonsDeleteTodo).map((item) => {
+          item.addEventListener("click", deleteTodo);
+        });
+        const statusesTodo = document.querySelectorAll(".status");
+        Array.from(statusesTodo).map((item) => {
+          item.addEventListener("click", changeStatus);
+        })
+      });
+  }
+
+  getSortUnsuccessTodolist() {
+    return fetch(`${this.baseUrl}/todolist/unsuccess`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.text();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`)
+      })
+      .then((html) => {
+        sectionTodolist.innerHTML = html;
+        const buttonsDeleteTodo = document.querySelectorAll(".todolist__button");
+        Array.from(buttonsDeleteTodo).map((item) => {
+          item.addEventListener("click", deleteTodo);
+        });
+        const statusesTodo = document.querySelectorAll(".status");
+        Array.from(statusesTodo).map((item) => {
+          item.addEventListener("click", changeStatus);
+        })
+      });
+  }
   // другие методы работы с API
 }
 const api = new Api("http://178.154.198.59/api");
@@ -107,6 +160,9 @@ function addTodo(evt) {
   form.reset();
 }
 submitButton.addEventListener("click", addTodo);
+buttonSortReset.addEventListener("click", resetSort);
+buttonSortSuccess.addEventListener("click", sortSuccess);
+buttonSortUnsuccess.addEventListener("click", sortUnsuccess);
 function deleteTodo(evt) {
   const parentElement = evt.target.closest("li");
   api.deleteTodolist(parentElement.id, parentElement);
@@ -114,4 +170,19 @@ function deleteTodo(evt) {
 function changeStatus(evt) {
   const parentElement = evt.target.closest("li");
   api.editTodolist(evt.target.textContent, parentElement.id);
+}
+function resetSort() {
+  const oldTodoList = document.querySelector(".ulCollection");
+  oldTodoList.remove();
+  api.getInitialTodolist();
+}
+function sortSuccess() {
+  const oldTodoList = document.querySelector(".ulCollection");
+  oldTodoList.remove();
+  api.getSortSuccessTodolist();
+}
+function sortUnsuccess() {
+  const oldTodoList = document.querySelector(".ulCollection");
+  oldTodoList.remove();
+  api.getSortUnsuccessTodolist();
 }
