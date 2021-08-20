@@ -1,5 +1,3 @@
-import Api from "./utils/Api";
-
 const submitButton = document.querySelector(".form__button");
 const textInput = document.querySelector(".form__input");
 const sectionTodolist = document.querySelector(".mainContent");

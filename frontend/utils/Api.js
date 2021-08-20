@@ -148,4 +148,3 @@ class Api {
   // другие методы работы с API
 }
 
-export default Api;
