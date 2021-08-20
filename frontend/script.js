@@ -1,4 +1,4 @@
-import Api from "./utils/Api";
+const Api = require("./utils/Api");
 
 const submitButton = document.querySelector(".form__button");
 const textInput = document.querySelector(".form__input");
