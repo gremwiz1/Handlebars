@@ -5,6 +5,7 @@ class Api {
     this.deleteTodo = deleteTodo;
     this.sectionTodolist = sectionTodolist;
   }
+
   getInitialTodolist() {
     return fetch(`${this.baseUrl}/todolist`, {
       headers: {
@@ -15,7 +16,7 @@ class Api {
         if (res.ok) {
           return res.text();
         }
-        return Promise.reject(`Ошибка: ${res.status}`)
+        return Promise.reject(`Ошибка: ${res.status}`);
       })
       .then((html) => {
         this.sectionTodolist.innerHTML = html;
@@ -26,7 +27,7 @@ class Api {
         const statusesTodo = document.querySelectorAll(".status");
         Array.from(statusesTodo).map((item) => {
           item.addEventListener("click", this.changeStatus);
-        }),
+        });
       });
   }
 
@@ -46,7 +47,7 @@ class Api {
       // если ошибка, отклоняем промис
       return Promise.reject(`Ошибка: ${res.status}`);
     }).then((html) => {
-      const ulSection = this.sectionTodolist.querySelector('.ulCollection');
+      const ulSection = this.sectionTodolist.querySelector(".ulCollection");
       ulSection.insertAdjacentHTML("beforeEnd", html);
       const buttonsDeleteTodos = ulSection.querySelectorAll(".todolist__button");
       const buttonDeleteTodo = buttonsDeleteTodos[buttonsDeleteTodos.length - 1];
@@ -54,7 +55,7 @@ class Api {
       const statuses = document.querySelectorAll(".status");
       const status = statuses[statuses.length - 1];
       status.addEventListener("click", this.changeStatus);
-    })
+    });
   }
 
   editTodolist(item, id) {
@@ -76,7 +77,7 @@ class Api {
       }).then((result) => {
         const element = document.getElementById(`${result.id}`);
         element.querySelector(".status").textContent = result.flag;
-      })
+      });
   }
 
   deleteTodolist(cardId, card) {
@@ -105,7 +106,7 @@ class Api {
         if (res.ok) {
           return res.text();
         }
-        return Promise.reject(`Ошибка: ${res.status}`)
+        return Promise.reject(`Ошибка: ${res.status}`);
       })
       .then((html) => {
         this.sectionTodolist.innerHTML = html;
@@ -116,7 +117,7 @@ class Api {
         const statusesTodo = document.querySelectorAll(".status");
         Array.from(statusesTodo).map((item) => {
           item.addEventListener("click", this.changeStatus);
-        })
+        });
       });
   }
 
@@ -130,7 +131,7 @@ class Api {
         if (res.ok) {
           return res.text();
         }
-        return Promise.reject(`Ошибка: ${res.status}`)
+        return Promise.reject(`Ошибка: ${res.status}`);
       })
       .then((html) => {
         this.sectionTodolist.innerHTML = html;
@@ -141,7 +142,7 @@ class Api {
         const statusesTodo = document.querySelectorAll(".status");
         Array.from(statusesTodo).map((item) => {
           item.addEventListener("click", this.changeStatus);
-        })
+        });
       });
   }
   // другие методы работы с API
